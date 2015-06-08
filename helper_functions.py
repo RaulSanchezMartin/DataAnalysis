@@ -62,3 +62,24 @@ def find_element_matrix(matrix,matrix_index,elements_list):
             matrix_output.append(row)
     matrix_output = np.array(matrix_output)
     return matrix_output
+    
+def distribution_list(list_input):
+    """
+    Function that returns the distribution of the elements of list
+    A two dimensional array is returned according to the following scheme:
+        *element[i]/% of times that element[i] appears in list
+    """
+    matrix_output = []
+    set_list = set(list_input)
+    set_list = list(set_list)
+    set_list.sort()
+    len_list = len(list_input)
+    row_idx = 0
+    for idx in range(len(set_list)):
+        matrix_output.append([])
+        count_item = list_input.count(set_list[idx])
+        count_item_per = float(count_item)/len_list*100
+        matrix_output[idx].append(set_list[idx])
+        matrix_output[idx].append(count_item_per)
+    return matrix_output
+    
