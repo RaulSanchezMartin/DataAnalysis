@@ -46,3 +46,22 @@ def write_data(output_name, output_data, delimiter):
     with open(output_name, "wb") as f:
         writer = csv.writer(f, delimiter=delimiter)
         writer.writerows(output_data)
+        
+def find_element_matrix(matrix,matrix_index,elements_list):
+    """
+    Function that iterates over the matrix[matrix_index]
+    items searching for each element in the elements_list
+    The input matrix is returned, but only including that rows
+    that in which the matrix[matrix_index] item has been found 
+    in elements_list
+    """
+    matrix_output = []
+    for row in matrix:
+        if row[matrix_index] in elements_list:
+            matrix_output.append(row)
+    return matrix_output
+            
+
+            
+    
+     
