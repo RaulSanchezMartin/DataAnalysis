@@ -1,4 +1,5 @@
 import csv
+import numpy as np
 
 def read_data(input_name, delimiter):
     """
@@ -59,9 +60,5 @@ def find_element_matrix(matrix,matrix_index,elements_list):
     for row in matrix:
         if row[matrix_index] in elements_list:
             matrix_output.append(row)
+    matrix_output = np.array(matrix_output)
     return matrix_output
-            
-
-            
-    
-     
