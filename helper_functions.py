@@ -84,7 +84,6 @@ def distribution_list(list_input):
         matrix_output[idx].append(count_item_per)
     return matrix_output
     
-    
 def reduce_curve(input_name,delimiter,initial_point,
     final_point, number_points):
     """
@@ -115,3 +114,26 @@ def reduce_curve(input_name,delimiter,initial_point,
         fitted_curve[-1].append(_x)
         fitted_curve[-1].append(float(fit_curve(_x)))   
     return fitted_curve
+
+def dif_curves(curve_1,curve_2):
+    """
+    Function that computes the difference between two curves
+    These two curves must have the same x coordinates
+    Inputs:
+        *curve_1: Name of the input file where the 
+            curve_1 is stored
+        *curve_2: Name of the input file where the 
+            curve_2 is stored
+    Two outputs are returned:
+        *output_1: difference curve_1
+        *output_2: average difference
+    """
+    dif_curve=[]
+    for _i in range(len(curve_1)):
+        dif_curve.append([])
+        dif = abs(float(curve_1[_i][1])-float(curve_2[_i][1]))
+        dif_curve[-1].append(float(curve_1[_i][0]))
+        dif_curve[-1].append(dif)
+    dif_array=np.asarray(dif_curve)
+    average_dif = [float(sum(dif_array[:,1]))/len(dif_curve)]
+    return dif_curve, average_dif
