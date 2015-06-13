@@ -1,5 +1,6 @@
 import csv
 import numpy as np
+from scipy.interpolate import interp1d
 
 def read_data(input_name, delimiter):
     """
@@ -83,3 +84,34 @@ def distribution_list(list_input):
         matrix_output[idx].append(count_item_per)
     return matrix_output
     
+    
+def reduce_curve(input_name,delimiter,initial_point,
+    final_point, number_points):
+    """
+    Function that takes a initial curve of x,y points
+    and returns a equally-spaced curve interpolated 
+    from the initial one.
+    Parameters:
+        *input_name: Name of the input file where the 
+            initial curve is stored
+        *delimiter: delimiter of the input file
+        *initial point: initial x coordinate of the 
+            returned curve
+        *final point: final x coordinate of the 
+            returned curve 
+        *number_points: number of points of the 
+            returned curve
+    """
+    initial_curve=read_data(input_name,delimiter)
+    initial_curve=str_to_float_mat(initial_curve)
+    initial_curve2 = np.asarray(initial_curve)
+    x=initial_curve2[:,0]
+    y=initial_curve2[:,1]
+    fit_curve=interp1d(x, y)
+    x_fit = np.linspace(initial_point,final_point,number_points)
+    fitted_curve=[]
+    for _x in x_fit:
+        fitted_curve.append([])
+        fitted_curve[-1].append(_x)
+        fitted_curve[-1].append(float(fit_curve(_x)))   
+    return fitted_curve
