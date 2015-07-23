@@ -172,3 +172,4 @@ def plot_figure(input_name,extension,xlabel,ylabel):
     plt.ylabel(xlabel, fontsize=15)
     plt.xlabel(xlabel, fontsize=15)
     plt.savefig(input_name+'.png')
+    plt.close()
