@@ -173,3 +173,21 @@ def plot_figure(input_name,extension,xlabel,ylabel):
     plt.xlabel(xlabel, fontsize=15)
     plt.savefig(input_name+'.png')
     plt.close()
+    
+    
+def detect_files(full_root,extension):
+    """
+    Function that detect and returns the a list of the name of 
+    the files (without extension) located at some specific root.
+    Inputs:
+        *Root of the directory where the files are stored: full_root
+        *Extension of the files to detect: extension
+    You must import the os module
+    """
+    files=[]
+    for file in os.listdir(full_root):
+        if file.endswith(extension):
+            for _i in range(len(extension)):
+                file=file[:-1]
+            files.append(file)
+    return files
