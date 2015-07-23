@@ -151,3 +151,24 @@ def dif_curves(curve_1,curve_2):
     dif_array=np.asarray(dif_curve)
     average_dif = [float(sum(dif_array[:,1]))/len(dif_curve)]
     return dif_curve, average_dif
+    
+def plot_figure(input_name,extension,xlabel,ylabel):
+    """
+    Function that save the figure of x-y plot.
+    Input data:
+        *Name of the file where the row data is stored
+            :input_name (without extension). The data 
+            should be specified as a matrix
+        *Extension of the input file: extension
+        *Label of the x axis: xlabel
+        *Label of the y axis: ylabel
+    You must import the matplotlib.pyplot modulue as plt
+    """
+    data=str_to_float_mat(read_txt(input_name+extension))
+    x=[row[1] for row in data]
+    y=[row[0] for row in data]
+    plt.plot(x,y,'-b')
+    plt.title(input_name, fontsize=20)
+    plt.ylabel(xlabel, fontsize=15)
+    plt.xlabel(xlabel, fontsize=15)
+    plt.savefig(input_name+'.png')
