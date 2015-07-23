@@ -17,6 +17,20 @@ def read_data(input_name, delimiter):
             matrix_1.append(row)
     return matrix_1
     
+def read_txt(input_file):
+    """
+    Function that reads a .txt file.
+    One argument is required by this function:
+        *Name of the input file (or full root): input_file
+    The output is a matrix
+    """
+    file_full_root_1 = input_file
+    file_1=open(file_full_root_1, 'rb')
+    matrix_1=[]
+    for row in file_1:
+        matrix_1.append(row.split())
+    return matrix_1
+    
 def str_to_float_mat(matrix):
     """
     Function that converts a matrix of 
