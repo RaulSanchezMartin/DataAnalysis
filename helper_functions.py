@@ -191,25 +191,7 @@ def detect_files(full_root,extension):
                 file=file[:-1]
             files.append(file)
     return files
-    
-    
-<<<<<<< .merge_file_a03848
-def extract_submatrix(data,ini_i,ini_j,final_i,final_j):
-    """
-    Function that takes a matrix as an input(data)
-    and returns a submatrix extrated from this initial
-    matrix only including specific rows and columns, that
-    are indicated by four indexs:
-        *ini_i: first row
-        *final_i: final row
-        *ini_j: first column
-        *final_j: last column
-    """
-    final_matrix=[]
-    for idx in range(ini_i,final_i+1):
-        final_matrix.append(data[idx][ini_j:final_j+1])
-    return final_matrix
-=======
+
 def selective_extract(data,index_select):
     """
     Function that takes as an input a matrix (data).
@@ -227,7 +209,6 @@ def selective_extract(data,index_select):
         index=int(row[index_select])
         data_select[index].append(row)
     return data_select
-        
 
 
 def add_order(data,index_order):
@@ -244,4 +225,20 @@ def add_order(data,index_order):
     for idx in range(len(data)):
         data[idx].append(indexs_ordered[idx]+1)
     return data
->>>>>>> .merge_file_a02924
+
+    
+def extract_submatrix(data,ini_i,ini_j,final_i,final_j):
+    """
+    Function that takes a matrix as an input(data)
+    and returns a submatrix extrated from this initial
+    matrix only including specific rows and columns, that
+    are indicated by four indexs:
+        *ini_i: first row
+        *final_i: final row
+        *ini_j: first column
+        *final_j: last column
+    """
+    final_matrix=[]
+    for idx in range(ini_i,final_i+1):
+        final_matrix.append(data[idx][ini_j:final_j+1])
+    return final_matrix
