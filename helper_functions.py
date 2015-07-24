@@ -193,6 +193,7 @@ def detect_files(full_root,extension):
     return files
     
     
+<<<<<<< .merge_file_a03848
 def extract_submatrix(data,ini_i,ini_j,final_i,final_j):
     """
     Function that takes a matrix as an input(data)
@@ -208,3 +209,39 @@ def extract_submatrix(data,ini_i,ini_j,final_i,final_j):
     for idx in range(ini_i,final_i+1):
         final_matrix.append(data[idx][ini_j:final_j+1])
     return final_matrix
+=======
+def selective_extract(data,index_select):
+    """
+    Function that takes as an input a matrix (data).
+    It returns as a dictionary which includes different
+    submatrixs of the inital matrix. This submatrixs
+    are obtained based on the value of one column (index_select)
+    """
+    select_set=set([])
+    for row in data:
+        select_set.add(int(row[index_select]))
+    data_select = {}
+    for i in list(select_set):
+        data_select[i]=[]
+    for row in data:
+        index=int(row[index_select])
+        data_select[index].append(row)
+    return data_select
+        
+
+
+def add_order(data,index_order):
+    """
+    Function that takes as an input a matrix (data).
+    It returns the same matrix, but with an additional 
+    column that indicates the order of each row depending
+    on the value of one row (index_order)
+    """
+    list_to_order=[]
+    for row in data:
+        list_to_order.append(float(row[index_order]))
+    indexs_ordered=sorted(range(len(list_to_order)), key=lambda k: list_to_order[k])
+    for idx in range(len(data)):
+        data[idx].append(indexs_ordered[idx]+1)
+    return data
+>>>>>>> .merge_file_a02924
