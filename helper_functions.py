@@ -191,3 +191,20 @@ def detect_files(full_root,extension):
                 file=file[:-1]
             files.append(file)
     return files
+    
+    
+def extract_submatrix(data,ini_i,ini_j,final_i,final_j):
+    """
+    Function that takes a matrix as an input(data)
+    and returns a submatrix extrated from this initial
+    matrix only including specific rows and columns, that
+    are indicated by four indexs:
+        *ini_i: first row
+        *final_i: final row
+        *ini_j: first column
+        *final_j: last column
+    """
+    final_matrix=[]
+    for idx in range(ini_i,final_i+1):
+        final_matrix.append(data[idx][ini_j:final_j+1])
+    return final_matrix
