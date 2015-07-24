@@ -242,3 +242,32 @@ def extract_submatrix(data,ini_i,ini_j,final_i,final_j):
     for idx in range(ini_i,final_i+1):
         final_matrix.append(data[idx][ini_j:final_j+1])
     return final_matrix
+    
+def similarity_matrix(data,row_col):
+    """
+    Function that takes as an a matrix (data). It returns
+    what is called a "similarity matrix" paying attention 
+    to the columns (row_col=1) or to the rows (row_col=0)
+    """
+    if row_col==1:
+        simi_matrix=[[0 for jdx in range(len(data[0]))] for idx in range(len(data[0]))]
+        columns=[]
+        for idx in range(len(data[idx])):
+            print "First", idx
+            column = (np.asarray(data))[:,idx]
+            columns.append(list(column))
+        for idx in range(len(data)):
+            print "second", idx
+            for jdx in range(idx,len(data[idx])):
+                if not idx==jdx:
+                    counter1=0
+                    counter2=0
+                    for kdx in range(len(columns)):
+                        counter1 += 1
+                        if columns[idx][kdx]==columns[jdx][kdx]:
+                            counter2 += 1
+                    simi_matrix[idx][jdx]=float(counter2)/float(counter1)
+                    simi_matrix[jdx][idx]=simi_matrix[idx][jdx]
+                else:
+                    simi_matrix[idx][jdx]=1.0
+    return simi_matrix
