@@ -231,7 +231,6 @@ def selective_extract_str(data,index_select):
         data_select[row[index_select]].append(row)
     return data_select
 
-
 def add_order(data,index_order):
     """
     Function that takes as an input a matrix (data).
@@ -292,3 +291,13 @@ def similarity_matrix(data,row_col):
                 else:
                     simi_matrix[idx][jdx]=1.0
     return simi_matrix
+    
+def remove_spaces_list(header):
+    """
+    Function that removes of the leading and ending spaces
+    of each element of a list
+    """
+    output = []
+    for item in header:
+        output.append(item.strip())
+    return output
