@@ -213,6 +213,23 @@ def selective_extract(data,index_select):
         index=int(row[index_select])
         data_select[index].append(row)
     return data_select
+    
+def selective_extract_str(data,index_select):
+    """
+    Function that takes as an input a matrix (data).
+    It returns as a dictionary which includes different
+    submatrixs of the inital matrix. This submatrixs
+    are obtained based on the name of one column (index_select)
+    """
+    select_set=set([])
+    for row in data:
+        select_set.add(row[index_select])
+    data_select = {}
+    for i in list(select_set):
+        data_select[i]=[]
+    for row in data:
+        data_select[row[index_select]].append(row)
+    return data_select
 
 
 def add_order(data,index_order):
