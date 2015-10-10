@@ -12,10 +12,14 @@ def read_data(input_name, delimiter):
     """
     file_1 = csv.reader(open(input_name), delimiter = delimiter)
     matrix_1=[] 
+    rownum=0
     for row in file_1:
-        if row != []:
+        if rownum == 0:
+            header_1 = row
+        else:
             matrix_1.append(row)
-    return matrix_1
+        rownum += 1
+    return matrix_1, header_1
     
 def read_txt(input_file):
     """
