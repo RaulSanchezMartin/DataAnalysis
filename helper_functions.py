@@ -301,3 +301,136 @@ def remove_spaces_list(header):
     for item in header:
         output.append(item.strip())
     return output
+    
+    
+def norm_vector(vector):
+    """
+    Function that returns the unit vector corresponding to a inital
+    vector
+    """
+    norm = math.sqrt(sum([element**2 for element in vector]))
+    return [element/norm for element in vector]
+
+def shear_stress_global(flag,m,s):
+    """
+    Function that calculates the on a slip/twin plane in a slip/twin direction
+    applying a pure tension or compression unit stress in z
+    Inputs:
+            flag ---> 1 for tension, 0 otherwise
+            m ---> unit vector normal to the slip/twin plane (global coordinates)
+            s ---> unit vector in the slip/twin direction (global coordiantes)
+    """ 
+        
+    m=np.array(norm_vector(m))[np.newaxis]
+    s=np.array(norm_vector(s))[np.newaxis]
+    
+    if flag==1:
+        return np.kron(s,m.T)[-1,-1]
+    else:
+        return -np.kron(s,m.T)[-1,-1]
+
+def rotation_matrix(m_tw):
+    """
+    Function that, given the normal vector to a twin plane "m_tw",
+    returns the rotation matrix corresponding to that vector
+    which has undergone a mirror-like rotation
+    """
+    Q11=2*m_tw[0]**2-1
+    Q22=2*m_tw[1]**2-1
+    Q33=2*m_tw[2]**2-1
+    Q12=2*m_tw[0]*m_tw[1]
+    Q13=2*m_tw[0]*m_tw[2]
+    Q23=2*m_tw[1]*m_tw[2]
+    return [[Q11,Q12,Q13],[Q12,Q22,Q23],[Q13,Q23,Q33]]
+    
+def rotation(vec, rot_mat):
+    """
+    Function that, given a vector 1x3 "vec" and a 3x3 rotation matrix 
+    "mat_rot", returns the vector rotated
+    """
+    rot_vec1 = rot_mat[0][0]*vec[0]+rot_mat[0][1]*vec[1]+rot_mat[0][2]*vec[2]
+    rot_vec2 = rot_mat[1][0]*vec[0]+rot_mat[1][1]*vec[1]+rot_mat[1][2]*vec[2]
+    rot_vec3 = rot_mat[2][0]*vec[0]+rot_mat[2][1]*vec[1]+rot_mat[2][2]*vec[2]
+    return [rot_vec1, rot_vec2, rot_vec3]
+    
+def angle_two_units_vectors(vec1, vec2):
+    """
+    Function that, given two units vectors "vec1" and "vec2",
+    returns, in degrees, the angle between them
+    """
+    return math.acos(vec1[0]*vec2[0]+vec1[1]*vec2[1]+vec1[2]*vec2[2])*180/math.pi
+    
+    
+def direction_change_hkil_hkl (UVTW):
+    """
+    Function that transforms the U,V,T,W coordinates 
+    of a direction given in the hkil coordinate systems
+    into the u,v,w coordinates of the hkl coordinate system
+    """
+    u = UVTW[0] - UVTW[2]
+    v = UVTW[1] - UVTW[2]
+    w = UVTW[3]
+    return [u, v, w]
+
+def plane_change_hkil_hkl (UVTW):
+    """
+    Function that transforms the U,V,T,W coordinates 
+    of a plane given in the hkil coordinate systems
+    into the u,v,w coordinates of the hkl coordinate system
+    """
+    u = UVTW[0]
+    v = UVTW[1]
+    w = UVTW[3]
+    return [u, v, w]
+    
+def uvw_to_xyz_change(uvw,OM):
+    """
+    Function that transforms the u,v,w coordinates 
+    of a vector given in the hkl coordinate systems
+    into the x,y,z coordinates of the cartesian coordinate system
+    """
+    uvw = np.array(uvw)
+    x_raw = np.inner(np.asarray(OM[0]), uvw)
+    y_raw = np.inner(np.asarray(OM[1]), uvw)
+    z_raw = np.inner(np.asarray(OM[2]), uvw)
+    module = math.sqrt(x_raw**2+y_raw**2+z_raw**2)
+    return [x_raw/module, y_raw/module, z_raw/module]
+    
+    
+def plane_uvtw_hkil(hkil, c_a):
+    """
+    Function that, given the hkil Miller-Bravais indexs (hkil)
+    and the c/a ratio (c_a) returns the normal vector
+    """
+    parameter = math.sqrt(float(2)/3)*c_a
+    U = hkil[0]
+    V = hkil[1]
+    T = hkil[2]
+    W = hkil[3]/(parameter**2)
+    return [U,V,T,W]
+    
+def trans_euler_angles(phi1, PHI, phi2):
+    """
+    Function that, given the three eluer angles (phi1, PHI, phi2)
+    returns the projection of the corresponding x and y axis in the 
+    grlobal system
+    """
+    sin=math.sin
+    cos=math.cos
+    pi=math.pi
+
+    phi1=phi1*2*pi/360
+    PHI=PHI*2*pi/360
+    phi2=phi2*2*pi/360
+    
+    a = [[0 for i in xrange(3)] for i in xrange(2)]
+    
+    a[0][0]=cos(phi2)*cos(phi1)-sin(phi1)*sin(phi2)*cos(PHI)
+    a[0][1]=cos(phi2)*sin(phi1)+cos(phi1)*sin(phi2)*cos(PHI)
+    a[0][2]=sin(PHI)*sin(phi2)
+    
+    a[1][0]=-sin(phi2)*cos(phi1)-sin(phi1)*cos(phi2)*cos(PHI)
+    a[1][1]=-sin(phi1)*sin(phi2)+cos(phi1)*cos(phi2)*cos(PHI)
+    a[1][2]=cos(phi2)*sin(PHI)
+    
+    return [a[0][0],a[0][1],a[0][2],a[1][0],a[1][1],a[1][2],0]
