@@ -434,3 +434,46 @@ def trans_euler_angles(phi1, PHI, phi2):
     a[1][2]=cos(phi2)*sin(PHI)
     
     return [a[0][0],a[0][1],a[0][2],a[1][0],a[1][1],a[1][2],0]
+    
+    
+def replace_value(value,limits):
+    """
+    Function that replaces an input "value" to 
+    other final value taking into account some limits.
+    These "limits" are given as a list according to the 
+    following syntax:
+        limits = [limit_1, limit_2, ..., limit_i]
+        limit_i[[lowest_value, highest_value],'value_to_replace']
+    The function maps limit by limit, doing the following:
+        if lowest_value <= value <= highest_value:
+            final_value --> 'value_to_replace'
+            break
+    """
+    new_value = value
+    for limit in limits:
+        lowest_value = float(limit[0][0])
+        highest_value = float(limit[0][1])
+        replace_value = limit[1]
+        if lowest_value<=value<=highest_value:
+            new_value = replace_value
+            break
+    return new_value
+    
+def map_matrix_replace_value(input_data,input_header,ini_jdx,fin_jdx):
+    """
+    Function that takes a input header and a input matrix (input_data). 
+    In addition, it is required two more values: ini_jdx and fin_jdx.
+    The function maps all the values of the input matrix. If the corresponding
+    j indexs of that vale are ini_jdx <= j_index <= fin_jdx, the replace_value()
+    function is applied
+    """
+    new_matrix = []
+    new_matrix.append(input_header)
+    for idx in range(len(input_data)):
+        new_matrix.append([])
+        for jdx in range(len(input_data[idx])):
+            if ini_jdx <= jdx <= fin_jdx:
+                new_matrix[-1].append(replace_value(float(input_data[idx][jdx]),limits))
+            else:
+                new_matrix[-1].append(input_data[idx][jdx])
+    return new_matrix
