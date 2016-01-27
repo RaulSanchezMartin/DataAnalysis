@@ -477,3 +477,39 @@ def map_matrix_replace_value(input_data,input_header,ini_jdx,fin_jdx):
             else:
                 new_matrix[-1].append(input_data[idx][jdx])
     return new_matrix
+    
+    
+def euler_angles_to_rotation_matrix(E1, E2, E3):
+    """
+    Function that, given three Euler angles E1 (phi1), E2 (PHI) and E3 (phi2),
+    returns the corresponding rotation matrix
+    """
+
+    sin=math.sin
+    cos=math.cos
+    pi=math.pi
+    
+    E1=E1*2*pi/360
+    E2=E2*2*pi/360
+    E3=E3*2*pi/360
+    
+    a = [[0 for i in xrange(3)] for i in xrange(3)]
+    
+    s1 = sin(E1)
+    c1 = cos(E1)
+    s2 = sin(E2)
+    c2 = cos(E2)
+    s3 = sin(E3)
+    c3 = cos(E3)
+    
+    a[0][0] = c1*c3 - c2*s1*s3
+    a[0][1] = -c1*s3 - c2*c3*s1
+    a[0][2] = s1*s2
+    a[1][0] = c3*s1 + c1*c2*s3
+    a[1][1] = c1*c2*c3 - s1*s3
+    a[1][2] = -c1*s2
+    a[2][0] = s2*s3
+    a[2][1] = c3*s2
+    a[2][2] = c2
+    
+    return a
